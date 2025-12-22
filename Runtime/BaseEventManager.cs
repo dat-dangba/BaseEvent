@@ -14,7 +14,7 @@ public abstract class BaseEventManager<INSTANCE> : MonoBehaviour
     protected bool isUpdateEvent;
 
 #if UNITY_EDITOR
-    protected void Reset()
+    protected virtual void Reset()
     {
     }
 #endif
