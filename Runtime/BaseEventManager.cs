@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class BaseEventManager<INSTANCE> : MonoBehaviour
 {
-    public INSTANCE Instance { get; private set; }
+    public static INSTANCE Instance { get; private set; }
 
 #if UNITY_EDITOR
     [SerializeReference] private List<GameEvent> events = new();
