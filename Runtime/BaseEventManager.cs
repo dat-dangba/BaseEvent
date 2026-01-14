@@ -40,7 +40,7 @@ public abstract class BaseEventManager<INSTANCE> : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
+    
     protected virtual void OnEnable()
     {
     }
