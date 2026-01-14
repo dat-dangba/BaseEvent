@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace EventSample
+namespace DBD.BaseEvent.Sample
 {
     public class TestEventManager : BaseEventManager<TestEventManager>
     {

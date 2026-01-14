@@ -1,6 +1,6 @@
 {
-    "name": "BaseEvent",
-    "rootNamespace": "",
+    "name": "DBD-BaseEvent",
+    "rootNamespace": "DBD.BaseEvent",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

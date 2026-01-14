@@ -1,90 +1,93 @@
 using System;
 
-public class CycleSchedule : BaseSchedule
+namespace DBD.BaseEvent
 {
-    private readonly DateTime cycleStart;
-    private readonly TimeSpan inactiveDuration;
-
-    public CycleSchedule(
-        DateTime cycleStart,
-        TimeSpan duration,
-        TimeSpan inactiveDuration)
+    public class CycleSchedule : BaseSchedule
     {
-        this.cycleStart = cycleStart;
-        this.duration = duration;
-        this.inactiveDuration = inactiveDuration;
-    }
+        private readonly DateTime cycleStart;
+        private readonly TimeSpan inactiveDuration;
 
-    // public override EventState GetState(bool isAutoReset, EventState currentEventState, DateTime eventStart,
-    //     DateTime now,
-    //     out DateTime start, out DateTime end)
-    // {
-    //     var cycleLength = activeDuration + inactiveDuration;
-    //
-    //     if (now < cycleStart)
-    //     {
-    //         start = cycleStart;
-    //         end = cycleStart + activeDuration;
-    //         return EventState.Inactive;
-    //     }
-    //
-    //     var elapsed = now - cycleStart;
-    //     var offsetTicks = elapsed.Ticks % cycleLength.Ticks;
-    //     var offset = TimeSpan.FromTicks(offsetTicks);
-    //
-    //     if (offset < activeDuration)
-    //     {
-    //         // đang trong phase Active
-    //         start = now - offset;
-    //         end = start + activeDuration;
-    //         return EventState.Active;
-    //     }
-    //
-    //     // đang trong phase Inactive
-    //     start = now - offset + activeDuration;
-    //     end = start + inactiveDuration;
-    //     return EventState.Inactive;
-    // }
-
-    protected override EventState GetEventState(DateTime now, DateTime start, DateTime end)
-    {
-        var cycleLength = duration + inactiveDuration;
-
-        if (now < cycleStart)
+        public CycleSchedule(
+            DateTime cycleStart,
+            TimeSpan duration,
+            TimeSpan inactiveDuration)
         {
-            return EventState.Inactive;
+            this.cycleStart = cycleStart;
+            this.duration = duration;
+            this.inactiveDuration = inactiveDuration;
         }
 
-        var elapsed = now - cycleStart;
-        var offsetTicks = elapsed.Ticks % cycleLength.Ticks;
-        var offset = TimeSpan.FromTicks(offsetTicks);
+        // public override EventState GetState(bool isAutoReset, EventState currentEventState, DateTime eventStart,
+        //     DateTime now,
+        //     out DateTime start, out DateTime end)
+        // {
+        //     var cycleLength = activeDuration + inactiveDuration;
+        //
+        //     if (now < cycleStart)
+        //     {
+        //         start = cycleStart;
+        //         end = cycleStart + activeDuration;
+        //         return EventState.Inactive;
+        //     }
+        //
+        //     var elapsed = now - cycleStart;
+        //     var offsetTicks = elapsed.Ticks % cycleLength.Ticks;
+        //     var offset = TimeSpan.FromTicks(offsetTicks);
+        //
+        //     if (offset < activeDuration)
+        //     {
+        //         // đang trong phase Active
+        //         start = now - offset;
+        //         end = start + activeDuration;
+        //         return EventState.Active;
+        //     }
+        //
+        //     // đang trong phase Inactive
+        //     start = now - offset + activeDuration;
+        //     end = start + inactiveDuration;
+        //     return EventState.Inactive;
+        // }
 
-        if (offset < duration)
+        protected override EventState GetEventState(DateTime now, DateTime start, DateTime end)
         {
-            return EventState.Active;
+            var cycleLength = duration + inactiveDuration;
+
+            if (now < cycleStart)
+            {
+                return EventState.Inactive;
+            }
+
+            var elapsed = now - cycleStart;
+            var offsetTicks = elapsed.Ticks % cycleLength.Ticks;
+            var offset = TimeSpan.FromTicks(offsetTicks);
+
+            if (offset < duration)
+            {
+                return EventState.Active;
+            }
+
+            return EventState.Ended;
         }
 
-        return EventState.Ended;
-    }
-
-    protected override DateTime GetEventStart(DateTime now)
-    {
-        var cycleLength = duration + inactiveDuration;
-
-        if (now < cycleStart)
+        protected override DateTime GetEventStart(DateTime now)
         {
-            return cycleStart;
+            var cycleLength = duration + inactiveDuration;
+
+            if (now < cycleStart)
+            {
+                return cycleStart;
+            }
+
+            var elapsed = now - cycleStart;
+            var offsetTicks = elapsed.Ticks % cycleLength.Ticks;
+            var offset = TimeSpan.FromTicks(offsetTicks);
+
+            if (offset < duration)
+            {
+                return now - offset;
+            }
+
+            return now - offset + duration;
         }
-
-        var elapsed = now - cycleStart;
-        var offsetTicks = elapsed.Ticks % cycleLength.Ticks;
-        var offset = TimeSpan.FromTicks(offsetTicks);
-
-        if (offset < duration)
-        {
-            return now - offset;
-        }
-
-        return now - offset + duration;
     }
 }

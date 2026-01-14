@@ -1,6 +1,6 @@
 {
   "name": "com.datdb.baseevent",
-  "displayName": "DBD-BaseEvent",
+  "displayName": "DBD-Event",
   "description": "Base Event",
   "author": "datdb",
   "version": "1.0.0",

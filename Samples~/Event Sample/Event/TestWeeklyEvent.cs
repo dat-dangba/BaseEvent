@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace EventSample
+namespace DBD.BaseEvent.Sample
 {
     public class TestWeeklyEvent : GameEvent
     {
