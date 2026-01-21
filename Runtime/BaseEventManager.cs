@@ -69,11 +69,13 @@ namespace DBD.BaseEvent
 
         private void ShowEventInspector()
         {
+#if UNITY_EDITOR
             events.Clear();
             foreach (var item in eventDict)
             {
                 events.Add(item.Value);
             }
+#endif
         }
 
         protected virtual void Update()
